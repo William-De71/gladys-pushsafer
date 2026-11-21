@@ -1,0 +1,1018 @@
+{
+  "manifest_version": 1,
+  "type": "communication",
+  "name": "Pushsafer",
+  "description": {
+    "en": "Gladys notifications as Pushsafer pushes, with images, priority, scenes and widgets.",
+    "fr": "Les notifications de Gladys en push Pushsafer : images, priorité, scènes et widgets.",
+    "de": "Gladys-Benachrichtigungen als Pushsafer-Pushes: Bilder, Priorität, Szenen, Widgets.",
+    "es": "Las notificaciones de Gladys como push de Pushsafer: imágenes, prioridad, escenas."
+  },
+  "version": "0.1.0",
+  "docker_image": "ghcr.io/william-de71/gladys-pushsafer:0.1.0",
+  "gladys_version": ">=5.3.0",
+  "categories": ["notifications"],
+  "keywords": [
+    "push",
+    "push notification",
+    "notification push",
+    "iOS",
+    "Android",
+    "Windows",
+    "alerte",
+    "Benachrichtigung",
+    "notificación",
+    "critical alert"
+  ],
+  "transports": ["cloud"],
+  "cover_image": "https://raw.githubusercontent.com/William-De71/gladys-pushsafer/main/cover.jpg",
+  "messaging": {
+    "receive": false
+  },
+  "config_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "label": {
+        "en": "Pushsafer account",
+        "fr": "Compte Pushsafer",
+        "de": "Pushsafer-Konto",
+        "es": "Cuenta de Pushsafer"
+      },
+      "description": {
+        "en": "Create an account on pushsafer.com and install the Pushsafer app on your phones, tablets or computers (iOS, Android, Windows, browsers), then copy the Private Key shown in the dashboard. Each push to one device uses one API call: a small free quota comes with each device, then 1,000 calls cost 0.99 EUR. Each user then chooses their device in the \"My account\" block below.",
+        "fr": "Créez un compte sur pushsafer.com et installez l'application Pushsafer sur vos téléphones, tablettes ou ordinateurs (iOS, Android, Windows, navigateurs), puis recopiez la clé privée (Private Key) affichée dans le tableau de bord. Chaque push vers un appareil consomme un appel d'API : un petit quota gratuit est offert par appareil, puis 1 000 appels coûtent 0,99 €. Chaque utilisateur choisit ensuite son appareil dans le bloc « Mon compte » plus bas.",
+        "de": "Legen Sie ein Konto auf pushsafer.com an und installieren Sie die Pushsafer-App auf Ihren Telefonen, Tablets oder Computern (iOS, Android, Windows, Browser), kopieren Sie dann den im Dashboard angezeigten privaten Schlüssel (Private Key). Jeder Push an ein Gerät verbraucht einen API-Aufruf: Pro Gerät gibt es ein kleines Gratiskontingent, danach kosten 1.000 Aufrufe 0,99 €. Jeder Benutzer wählt anschließend sein Gerät im Block „Mein Konto“ weiter unten.",
+        "es": "Cree una cuenta en pushsafer.com e instale la aplicación Pushsafer en sus teléfonos, tabletas u ordenadores (iOS, Android, Windows, navegadores), y copie la clave privada (Private Key) que muestra el panel. Cada push a un dispositivo consume una llamada a la API: cada dispositivo incluye una pequeña cuota gratuita y después 1000 llamadas cuestan 0,99 €. Cada usuario elige luego su dispositivo en el bloque «Mi cuenta» de más abajo."
+      },
+      "links": [
+        {
+          "url": "https://www.pushsafer.com/dashboard",
+          "label": {
+            "en": "Pushsafer dashboard (private key, devices)",
+            "fr": "Tableau de bord Pushsafer (clé privée, appareils)",
+            "de": "Pushsafer-Dashboard (privater Schlüssel, Geräte)",
+            "es": "Panel de Pushsafer (clave privada, dispositivos)"
+          }
+        },
+        {
+          "url": "https://www.pushsafer.com/en/apps",
+          "label": {
+            "en": "Pushsafer apps",
+            "fr": "Applications Pushsafer",
+            "de": "Pushsafer-Apps",
+            "es": "Aplicaciones de Pushsafer"
+          }
+        },
+        {
+          "url": "https://www.pushsafer.com/faq",
+          "label": {
+            "en": "Prices of the API calls (FAQ)",
+            "fr": "Prix des appels d'API (FAQ)",
+            "de": "Preise der API-Aufrufe (FAQ)",
+            "es": "Precios de las llamadas a la API (FAQ)"
+          }
+        }
+      ]
+    },
+    {
+      "key": "private_key",
+      "type": "secret",
+      "label": {
+        "en": "Private key",
+        "fr": "Clé privée",
+        "de": "Privater Schlüssel",
+        "es": "Clave privada"
+      },
+      "description": {
+        "en": "The Private Key of the dashboard, or an alias key. Stored encrypted and never shown again.",
+        "fr": "La clé privée du tableau de bord, ou une clé alias. Stockée chiffrée et plus jamais affichée.",
+        "de": "Der private Schlüssel des Dashboards oder ein Alias-Schlüssel. Wird verschlüsselt gespeichert und nie wieder angezeigt.",
+        "es": "La clave privada del panel, o una clave alias. Se guarda cifrada y no se vuelve a mostrar."
+      },
+      "required": true
+    },
+    {
+      "key": "username",
+      "type": "string",
+      "label": {
+        "en": "Username or e-mail",
+        "fr": "Nom d'utilisateur ou e-mail",
+        "de": "Benutzername oder E-Mail",
+        "es": "Usuario o correo"
+      },
+      "description": {
+        "en": "Of the Pushsafer account. Optional for sending, needed to check the key and to list the devices and groups.",
+        "fr": "Du compte Pushsafer. Facultatif pour envoyer, il sert à vérifier la clé et à lister les appareils et groupes.",
+        "de": "Des Pushsafer-Kontos. Zum Senden optional, nötig, um den Schlüssel zu prüfen und Geräte und Gruppen aufzulisten.",
+        "es": "De la cuenta de Pushsafer. Opcional para enviar, sirve para comprobar la clave y listar dispositivos y grupos."
+      },
+      "placeholder": {
+        "en": "jane@example.com",
+        "fr": "marie@exemple.fr",
+        "de": "anna@beispiel.de",
+        "es": "lucia@ejemplo.es"
+      }
+    },
+    {
+      "key": "look_intro",
+      "type": "section",
+      "label": {
+        "en": "Look of the notifications",
+        "fr": "Apparence des notifications",
+        "de": "Aussehen der Benachrichtigungen",
+        "es": "Aspecto de las notificaciones"
+      },
+      "description": {
+        "en": "Used for every notification of Gladys. Leave a field empty to keep the setting of each device. The scene action \"Send a Pushsafer push\" can change them push by push. Icons (1 to 181) and sounds (0 = silent, 1 to 62) are listed on the API page of Pushsafer.",
+        "fr": "Utilisée pour toutes les notifications de Gladys. Laissez un champ vide pour garder le réglage de chaque appareil. L'action de scène « Envoyer un push Pushsafer » peut les changer push par push. Les icônes (1 à 181) et les sons (0 = silencieux, 1 à 62) sont listés sur la page de l'API de Pushsafer.",
+        "de": "Gilt für alle Benachrichtigungen von Gladys. Lassen Sie ein Feld leer, um die Einstellung des jeweiligen Geräts zu behalten. Die Szenenaktion „Pushsafer-Push senden“ kann sie pro Push ändern. Symbole (1 bis 181) und Töne (0 = lautlos, 1 bis 62) stehen auf der API-Seite von Pushsafer.",
+        "es": "Se usa en todas las notificaciones de Gladys. Deje un campo vacío para mantener el ajuste de cada dispositivo. La acción de escena «Enviar un push de Pushsafer» puede cambiarlos push a push. Los iconos (1 a 181) y los sonidos (0 = silencio, 1 a 62) figuran en la página de la API de Pushsafer."
+      },
+      "links": [
+        {
+          "url": "https://www.pushsafer.com/en/pushapi_ext",
+          "label": {
+            "en": "Icons, sounds and priorities",
+            "fr": "Icônes, sons et priorités",
+            "de": "Symbole, Töne und Prioritäten",
+            "es": "Iconos, sonidos y prioridades"
+          }
+        }
+      ]
+    },
+    {
+      "key": "title",
+      "type": "string",
+      "label": {
+        "en": "Title",
+        "fr": "Titre",
+        "de": "Titel",
+        "es": "Título"
+      },
+      "description": {
+        "en": "Above the text of each notification.",
+        "fr": "Au-dessus du texte de chaque notification.",
+        "de": "Über dem Text jeder Benachrichtigung.",
+        "es": "Encima del texto de cada notificación."
+      },
+      "default": "Gladys"
+    },
+    {
+      "key": "icon",
+      "type": "number",
+      "label": {
+        "en": "Icon",
+        "fr": "Icône",
+        "de": "Symbol",
+        "es": "Icono"
+      },
+      "description": {
+        "en": "Number of the icon, from 1 (the Pushsafer bell) to 181.",
+        "fr": "Numéro de l'icône, de 1 (la cloche Pushsafer) à 181.",
+        "de": "Nummer des Symbols, von 1 (die Pushsafer-Glocke) bis 181.",
+        "es": "Número del icono, de 1 (la campana de Pushsafer) a 181."
+      },
+      "min": 1,
+      "max": 181
+    },
+    {
+      "key": "sound",
+      "type": "number",
+      "label": {
+        "en": "Sound",
+        "fr": "Son",
+        "de": "Ton",
+        "es": "Sonido"
+      },
+      "description": {
+        "en": "0 = silent, 1 to 62 = a sound of Pushsafer. Empty: the sound of the device.",
+        "fr": "0 = silencieux, 1 à 62 = un son de Pushsafer. Vide : le son de l'appareil.",
+        "de": "0 = lautlos, 1 bis 62 = ein Pushsafer-Ton. Leer: der Ton des Geräts.",
+        "es": "0 = silencio, 1 a 62 = un sonido de Pushsafer. Vacío: el sonido del dispositivo."
+      },
+      "min": 0,
+      "max": 62
+    },
+    {
+      "key": "vibration",
+      "type": "select",
+      "label": {
+        "en": "Vibration",
+        "fr": "Vibration",
+        "de": "Vibration",
+        "es": "Vibración"
+      },
+      "description": {
+        "en": "iOS and Android only. Empty: the setting of the device.",
+        "fr": "iOS et Android seulement. Vide : le réglage de l'appareil.",
+        "de": "Nur iOS und Android. Leer: die Einstellung des Geräts.",
+        "es": "Solo iOS y Android. Vacío: el ajuste del dispositivo."
+      },
+      "options": [
+        {
+          "value": "1",
+          "label": {
+            "en": "Short",
+            "fr": "Courte",
+            "de": "Kurz",
+            "es": "Corta"
+          }
+        },
+        {
+          "value": "2",
+          "label": {
+            "en": "Medium",
+            "fr": "Moyenne",
+            "de": "Mittel",
+            "es": "Media"
+          }
+        },
+        {
+          "value": "3",
+          "label": {
+            "en": "Long",
+            "fr": "Longue",
+            "de": "Lang",
+            "es": "Larga"
+          }
+        }
+      ]
+    },
+    {
+      "key": "priority",
+      "type": "select",
+      "label": {
+        "en": "Priority",
+        "fr": "Priorité",
+        "de": "Priorität",
+        "es": "Prioridad"
+      },
+      "description": {
+        "en": "High and highest go through Do Not Disturb (Time Sensitive and Critical Alerts on iOS, if allowed for the app).",
+        "fr": "Haute et la plus haute passent outre « Ne pas déranger » (notifications urgentes et alertes critiques sur iOS, si l'appli y est autorisée).",
+        "de": "Hoch und Höchste umgehen „Nicht stören“ (dringende Mitteilungen und kritische Hinweise unter iOS, wenn für die App erlaubt).",
+        "es": "Alta y máxima ignoran «No molestar» (notificaciones urgentes y alertas críticas en iOS, si la app tiene permiso)."
+      },
+      "options": [
+        {
+          "value": "-2",
+          "label": {
+            "en": "Lowest: no notification, in the app only",
+            "fr": "La plus basse : pas de notification, dans l'appli seulement",
+            "de": "Niedrigste: keine Benachrichtigung, nur in der App",
+            "es": "Mínima: sin notificación, solo en la app"
+          }
+        },
+        {
+          "value": "-1",
+          "label": {
+            "en": "Low: no sound nor vibration",
+            "fr": "Basse : ni son ni vibration",
+            "de": "Niedrig: ohne Ton und Vibration",
+            "es": "Baja: sin sonido ni vibración"
+          }
+        },
+        {
+          "value": "0",
+          "label": {
+            "en": "Normal: respects Do Not Disturb",
+            "fr": "Normale : respecte « Ne pas déranger »",
+            "de": "Normal: beachtet „Nicht stören“",
+            "es": "Normal: respeta «No molestar»"
+          }
+        },
+        {
+          "value": "1",
+          "label": {
+            "en": "High: ignores Do Not Disturb",
+            "fr": "Haute : ignore « Ne pas déranger »",
+            "de": "Hoch: ignoriert „Nicht stören“",
+            "es": "Alta: ignora «No molestar»"
+          }
+        },
+        {
+          "value": "2",
+          "label": {
+            "en": "Highest: critical alert",
+            "fr": "La plus haute : alerte critique",
+            "de": "Höchste: kritischer Hinweis",
+            "es": "Máxima: alerta crítica"
+          }
+        }
+      ],
+      "default": "0",
+      "required": true
+    },
+    {
+      "key": "time_to_live",
+      "type": "number",
+      "label": {
+        "en": "Delete after (minutes)",
+        "fr": "Supprimer après (minutes)",
+        "de": "Löschen nach (Minuten)",
+        "es": "Borrar tras (minutos)"
+      },
+      "description": {
+        "en": "The Pushsafer app deletes the message after this time. 0: never.",
+        "fr": "L'application Pushsafer supprime le message après ce délai. 0 : jamais.",
+        "de": "Die Pushsafer-App löscht die Nachricht nach dieser Zeit. 0: nie.",
+        "es": "La aplicación Pushsafer borra el mensaje tras este tiempo. 0: nunca."
+      },
+      "default": 0,
+      "min": 0,
+      "max": 43200
+    },
+    {
+      "key": "calls_intro",
+      "type": "section",
+      "label": {
+        "en": "API calls",
+        "fr": "Appels d'API",
+        "de": "API-Aufrufe",
+        "es": "Llamadas a la API"
+      },
+      "description": {
+        "en": "Pushsafer tells the API calls left with each push: the integration shows them in its widget and fires the \"API calls low\" scene trigger below this threshold.",
+        "fr": "Pushsafer indique les appels d'API restants à chaque push : l'intégration les affiche dans son widget et déclenche « Appels d'API bientôt épuisés » sous ce seuil.",
+        "de": "Pushsafer meldet die verbleibenden API-Aufrufe bei jedem Push: Die Integration zeigt sie im Widget und löst unter dieser Schwelle den Szenenauslöser „API-Aufrufe fast aufgebraucht“ aus.",
+        "es": "Pushsafer indica las llamadas a la API restantes con cada push: la integración las muestra en su widget y lanza el disparador «Pocas llamadas a la API» por debajo de este umbral."
+      }
+    },
+    {
+      "key": "low_api_calls_threshold",
+      "type": "number",
+      "label": {
+        "en": "Low API calls alert",
+        "fr": "Alerte appels d'API bas",
+        "de": "Warnung bei wenigen Aufrufen",
+        "es": "Alerta de pocas llamadas"
+      },
+      "description": {
+        "en": "Below this number of API calls left, the scene trigger fires once.",
+        "fr": "Sous ce nombre d'appels d'API restants, le déclencheur de scène part une fois.",
+        "de": "Unter dieser Zahl verbleibender API-Aufrufe wird der Szenenauslöser einmal ausgelöst.",
+        "es": "Por debajo de este número de llamadas restantes, el disparador de escena se lanza una vez."
+      },
+      "default": 20,
+      "min": 0,
+      "max": 1000000
+    }
+  ],
+  "contact_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "label": {
+        "en": "Notifications by Pushsafer",
+        "fr": "Notifications par Pushsafer",
+        "de": "Benachrichtigungen per Pushsafer",
+        "es": "Notificaciones por Pushsafer"
+      },
+      "description": {
+        "en": "Choose where your Gladys notifications arrive: all the devices of the Pushsafer account of the house, one of them, or a device group.",
+        "fr": "Choisissez où arrivent vos notifications de Gladys : tous les appareils du compte Pushsafer de la maison, l'un d'eux, ou un groupe d'appareils.",
+        "de": "Wählen Sie, wo Ihre Gladys-Benachrichtigungen ankommen: alle Geräte des Pushsafer-Kontos des Hauses, eines davon oder eine Gerätegruppe.",
+        "es": "Elija dónde llegan sus notificaciones de Gladys: todos los dispositivos de la cuenta de Pushsafer de la casa, uno de ellos o un grupo de dispositivos."
+      }
+    },
+    {
+      "key": "device",
+      "type": "string",
+      "label": {
+        "en": "Device or group",
+        "fr": "Appareil ou groupe",
+        "de": "Gerät oder Gruppe",
+        "es": "Dispositivo o grupo"
+      },
+      "description": {
+        "en": "a = all your devices; a device ID (52) shown in the Pushsafer dashboard or by \"Test the connection\"; several IDs (52|65); or a device group (gs12).",
+        "fr": "a = tous vos appareils ; un ID d'appareil (52), visible dans le tableau de bord Pushsafer ou par « Tester la connexion » ; plusieurs ID (52|65) ; ou un groupe d'appareils (gs12).",
+        "de": "a = alle Ihre Geräte; eine Geräte-ID (52) aus dem Pushsafer-Dashboard oder von „Verbindung testen“; mehrere IDs (52|65); oder eine Gerätegruppe (gs12).",
+        "es": "a = todos sus dispositivos; un ID de dispositivo (52), visible en el panel de Pushsafer o con «Probar la conexión»; varios ID (52|65); o un grupo de dispositivos (gs12)."
+      },
+      "placeholder": {
+        "en": "a",
+        "fr": "a",
+        "de": "a",
+        "es": "a"
+      },
+      "required": true
+    }
+  ],
+  "actions": [
+    {
+      "key": "test_connection",
+      "label": {
+        "en": "Test the connection",
+        "fr": "Tester la connexion",
+        "de": "Verbindung testen",
+        "es": "Probar la conexión"
+      },
+      "description": {
+        "en": "Checks the key and lists the devices and groups with their IDs. Uses no API call.",
+        "fr": "Vérifie la clé et liste les appareils et groupes avec leurs ID. Ne consomme aucun appel d'API.",
+        "de": "Prüft den Schlüssel und listet Geräte und Gruppen mit ihren IDs auf. Verbraucht keinen API-Aufruf.",
+        "es": "Comprueba la clave y lista los dispositivos y grupos con sus ID. No consume llamadas a la API."
+      },
+      "timeout_seconds": 30
+    },
+    {
+      "key": "send_test_push",
+      "label": {
+        "en": "Send a test push",
+        "fr": "Envoyer un push de test",
+        "de": "Test-Push senden",
+        "es": "Enviar un push de prueba"
+      },
+      "description": {
+        "en": "Sends a short push to the device below (all devices when empty). Uses one API call per device.",
+        "fr": "Envoie un court push à l'appareil ci-dessous (tous les appareils si vide). Consomme un appel d'API par appareil.",
+        "de": "Sendet einen kurzen Push an das Gerät unten (alle Geräte, wenn leer). Verbraucht einen API-Aufruf pro Gerät.",
+        "es": "Envía un push corto al dispositivo de abajo (todos si está vacío). Consume una llamada a la API por dispositivo."
+      },
+      "timeout_seconds": 45,
+      "fields": [
+        {
+          "key": "device",
+          "type": "string",
+          "label": {
+            "en": "Device or group",
+            "fr": "Appareil ou groupe",
+            "de": "Gerät oder Gruppe",
+            "es": "Dispositivo o grupo"
+          },
+          "description": {
+            "en": "a = all your devices; a device ID (52) shown in the Pushsafer dashboard or by \"Test the connection\"; several IDs (52|65); or a device group (gs12).",
+            "fr": "a = tous vos appareils ; un ID d'appareil (52), visible dans le tableau de bord Pushsafer ou par « Tester la connexion » ; plusieurs ID (52|65) ; ou un groupe d'appareils (gs12).",
+            "de": "a = alle Ihre Geräte; eine Geräte-ID (52) aus dem Pushsafer-Dashboard oder von „Verbindung testen“; mehrere IDs (52|65); oder eine Gerätegruppe (gs12).",
+            "es": "a = todos sus dispositivos; un ID de dispositivo (52), visible en el panel de Pushsafer o con «Probar la conexión»; varios ID (52|65); o un grupo de dispositivos (gs12)."
+          },
+          "placeholder": {
+            "en": "a",
+            "fr": "a",
+            "de": "a",
+            "es": "a"
+          }
+        }
+      ]
+    }
+  ],
+  "widgets": [
+    {
+      "key": "account",
+      "label": {
+        "en": "Pushsafer",
+        "fr": "Pushsafer",
+        "de": "Pushsafer",
+        "es": "Pushsafer"
+      },
+      "description": {
+        "en": "API calls left, pushes of the month, state of the key, devices and last failure.",
+        "fr": "Appels d'API restants, pushes du mois, état de la clé, appareils et dernier échec.",
+        "de": "Verbleibende API-Aufrufe, Pushes des Monats, Schlüsselstatus, Geräte, letzter Fehler.",
+        "es": "Llamadas restantes, pushes del mes, estado de la clave, dispositivos y último fallo."
+      },
+      "icon": "send"
+    },
+    {
+      "key": "recent",
+      "label": {
+        "en": "Pushsafer pushes",
+        "fr": "Pushes Pushsafer",
+        "de": "Pushsafer-Pushes",
+        "es": "Pushes de Pushsafer"
+      },
+      "description": {
+        "en": "The last pushes of Gladys, sent or not; tap one to read it whole.",
+        "fr": "Les derniers pushes de Gladys, envoyés ou non ; touchez-en un pour le lire en entier.",
+        "de": "Die letzten Pushes von Gladys, gesendet oder nicht; tippen Sie einen an, um ihn ganz zu lesen.",
+        "es": "Los últimos pushes de Gladys, enviados o no; toque uno para leerlo entero."
+      },
+      "icon": "bell"
+    }
+  ],
+  "scene_triggers": [
+    {
+      "key": "push_not_sent",
+      "label": {
+        "en": "Push not sent",
+        "fr": "Push non envoyé",
+        "de": "Push nicht gesendet",
+        "es": "Push no enviado"
+      },
+      "description": {
+        "en": "A Gladys notification could not leave through Pushsafer. Fires on the first failure, then again only after a push went through: use another channel to warn.",
+        "fr": "Une notification de Gladys n'a pas pu partir par Pushsafer. Se déclenche au premier échec, puis seulement après qu'un push est repassé : prévenez par un autre canal.",
+        "de": "Eine Gladys-Benachrichtigung konnte nicht über Pushsafer gesendet werden. Löst beim ersten Fehler aus, danach erst wieder, nachdem ein Push durchging: Warnen Sie über einen anderen Kanal.",
+        "es": "Una notificación de Gladys no pudo salir por Pushsafer. Se lanza con el primer fallo y de nuevo solo tras un push correcto: avise por otro canal."
+      },
+      "fields": [
+        {
+          "key": "reason",
+          "type": "multi_select",
+          "label": {
+            "en": "Reasons",
+            "fr": "Raisons",
+            "de": "Gründe",
+            "es": "Motivos"
+          },
+          "description": {
+            "en": "Leave empty to react to every reason.",
+            "fr": "Laissez vide pour réagir à toutes les raisons.",
+            "de": "Leer lassen, um auf alle Gründe zu reagieren.",
+            "es": "Déjelo vacío para reaccionar a todos los motivos."
+          },
+          "options": [
+            {
+              "value": "no_api_calls",
+              "label": {
+                "en": "No API calls left",
+                "fr": "Plus d'appels d'API",
+                "de": "Keine API-Aufrufe mehr",
+                "es": "Sin llamadas a la API"
+              }
+            },
+            {
+              "value": "invalid_key",
+              "label": {
+                "en": "Key refused",
+                "fr": "Clé refusée",
+                "de": "Schlüssel abgelehnt",
+                "es": "Clave rechazada"
+              }
+            },
+            {
+              "value": "not_configured",
+              "label": {
+                "en": "Private key missing in the configuration",
+                "fr": "Clé privée absente de la configuration",
+                "de": "Privater Schlüssel fehlt in der Konfiguration",
+                "es": "Falta la clave privada en la configuración"
+              }
+            },
+            {
+              "value": "invalid_device",
+              "label": {
+                "en": "Device refused (or none entered)",
+                "fr": "Appareil refusé (ou non saisi)",
+                "de": "Gerät abgelehnt (oder nicht eingegeben)",
+                "es": "Dispositivo rechazado (o no indicado)"
+              }
+            },
+            {
+              "value": "invalid_group",
+              "label": {
+                "en": "Device group refused",
+                "fr": "Groupe d'appareils refusé",
+                "de": "Gerätegruppe abgelehnt",
+                "es": "Grupo de dispositivos rechazado"
+              }
+            },
+            {
+              "value": "empty_message",
+              "label": {
+                "en": "Empty message",
+                "fr": "Message vide",
+                "de": "Leere Nachricht",
+                "es": "Mensaje vacío"
+              }
+            },
+            {
+              "value": "rejected",
+              "label": {
+                "en": "Push refused by Pushsafer",
+                "fr": "Push refusé par Pushsafer",
+                "de": "Push von Pushsafer abgelehnt",
+                "es": "Push rechazado por Pushsafer"
+              }
+            },
+            {
+              "value": "server_error",
+              "label": {
+                "en": "Pushsafer server error",
+                "fr": "Erreur du serveur Pushsafer",
+                "de": "Serverfehler bei Pushsafer",
+                "es": "Error del servidor de Pushsafer"
+              }
+            },
+            {
+              "value": "timeout",
+              "label": {
+                "en": "No answer in time (the push may still arrive)",
+                "fr": "Pas de réponse à temps (le push peut quand même arriver)",
+                "de": "Keine Antwort rechtzeitig (der Push kann trotzdem ankommen)",
+                "es": "Sin respuesta a tiempo (el push puede llegar igualmente)"
+              }
+            },
+            {
+              "value": "unreachable",
+              "label": {
+                "en": "Pushsafer unreachable (network)",
+                "fr": "Pushsafer injoignable (réseau)",
+                "de": "Pushsafer nicht erreichbar (Netzwerk)",
+                "es": "Pushsafer inaccesible (red)"
+              }
+            },
+            {
+              "value": "unexpected",
+              "label": {
+                "en": "Unexpected answer",
+                "fr": "Réponse inattendue",
+                "de": "Unerwartete Antwort",
+                "es": "Respuesta inesperada"
+              }
+            }
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "reason",
+          "type": "string",
+          "label": {
+            "en": "Reason (code)",
+            "fr": "Raison (code)",
+            "de": "Grund (Code)",
+            "es": "Motivo (código)"
+          },
+          "description": {
+            "en": "no_api_calls, invalid_key, not_configured, invalid_device, invalid_group, empty_message, rejected, server_error, timeout, unreachable, unexpected.",
+            "fr": "no_api_calls, invalid_key, not_configured, invalid_device, invalid_group, empty_message, rejected, server_error, timeout, unreachable, unexpected.",
+            "de": "no_api_calls, invalid_key, not_configured, invalid_device, invalid_group, empty_message, rejected, server_error, timeout, unreachable, unexpected.",
+            "es": "no_api_calls, invalid_key, not_configured, invalid_device, invalid_group, empty_message, rejected, server_error, timeout, unreachable, unexpected."
+          }
+        },
+        {
+          "key": "status",
+          "type": "number",
+          "label": {
+            "en": "HTTP status",
+            "fr": "Statut HTTP",
+            "de": "HTTP-Status",
+            "es": "Estado HTTP"
+          },
+          "description": {
+            "en": "The answer of Pushsafer (250, 280…), empty without an answer.",
+            "fr": "La réponse de Pushsafer (250, 280…), vide sans réponse.",
+            "de": "Die Antwort von Pushsafer (250, 280 …), leer ohne Antwort.",
+            "es": "La respuesta de Pushsafer (250, 280…), vacía sin respuesta."
+          }
+        },
+        {
+          "key": "error",
+          "type": "string",
+          "label": {
+            "en": "Error message",
+            "fr": "Message d'erreur",
+            "de": "Fehlermeldung",
+            "es": "Mensaje de error"
+          },
+          "description": {
+            "en": "The error in English, as in the logs.",
+            "fr": "L'erreur en anglais, comme dans les journaux.",
+            "de": "Der Fehler auf Englisch, wie in den Protokollen.",
+            "es": "El error en inglés, como en los registros."
+          }
+        },
+        {
+          "key": "device",
+          "type": "string",
+          "label": {
+            "en": "Device or group",
+            "fr": "Appareil ou groupe",
+            "de": "Gerät oder Gruppe",
+            "es": "Dispositivo o grupo"
+          },
+          "description": {
+            "en": "The target of the push: a, 52, 52|65 or gs12.",
+            "fr": "La cible du push : a, 52, 52|65 ou gs12.",
+            "de": "Das Ziel des Pushs: a, 52, 52|65 oder gs12.",
+            "es": "El destino del push: a, 52, 52|65 o gs12."
+          }
+        }
+      ]
+    },
+    {
+      "key": "api_calls_low",
+      "label": {
+        "en": "API calls low",
+        "fr": "Appels d'API bientôt épuisés",
+        "de": "API-Aufrufe fast aufgebraucht",
+        "es": "Pocas llamadas a la API"
+      },
+      "description": {
+        "en": "The API calls left went below the threshold of the configuration. Fires once, armed again once they are back above it.",
+        "fr": "Les appels d'API restants sont passés sous le seuil de la configuration. Se déclenche une fois, réarmé quand ils repassent au-dessus.",
+        "de": "Die verbleibenden API-Aufrufe sind unter die Schwelle der Konfiguration gefallen. Löst einmal aus und wird wieder scharf, sobald sie darüber liegen.",
+        "es": "Las llamadas a la API restantes bajaron del umbral de la configuración. Se lanza una vez y se rearma cuando vuelven a superarlo."
+      },
+      "variables": [
+        {
+          "key": "api_calls_left",
+          "type": "number",
+          "label": {
+            "en": "API calls left",
+            "fr": "Appels d'API restants",
+            "de": "Verbleibende API-Aufrufe",
+            "es": "Llamadas restantes"
+          }
+        },
+        {
+          "key": "threshold",
+          "type": "number",
+          "label": {
+            "en": "Threshold",
+            "fr": "Seuil",
+            "de": "Schwelle",
+            "es": "Umbral"
+          }
+        }
+      ]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "send_push",
+      "label": {
+        "en": "Send a Pushsafer push",
+        "fr": "Envoyer un push Pushsafer",
+        "de": "Pushsafer-Push senden",
+        "es": "Enviar un push de Pushsafer"
+      },
+      "description": {
+        "en": "Sends a push to any device or group of the account, with its own title, priority, sound, icon and link. Uses one API call per device.",
+        "fr": "Envoie un push à n'importe quel appareil ou groupe du compte, avec son titre, sa priorité, son son, son icône et son lien. Consomme un appel d'API par appareil.",
+        "de": "Sendet einen Push an ein beliebiges Gerät oder eine Gruppe des Kontos, mit eigenem Titel, Priorität, Ton, Symbol und Link. Verbraucht einen API-Aufruf pro Gerät.",
+        "es": "Envía un push a cualquier dispositivo o grupo de la cuenta, con su título, prioridad, sonido, icono y enlace. Consume una llamada a la API por dispositivo."
+      },
+      "timeout_seconds": 45,
+      "fields": [
+        {
+          "key": "device",
+          "type": "string",
+          "label": {
+            "en": "Device or group",
+            "fr": "Appareil ou groupe",
+            "de": "Gerät oder Gruppe",
+            "es": "Dispositivo o grupo"
+          },
+          "description": {
+            "en": "a = all your devices; a device ID (52) shown in the Pushsafer dashboard or by \"Test the connection\"; several IDs (52|65); or a device group (gs12).",
+            "fr": "a = tous vos appareils ; un ID d'appareil (52), visible dans le tableau de bord Pushsafer ou par « Tester la connexion » ; plusieurs ID (52|65) ; ou un groupe d'appareils (gs12).",
+            "de": "a = alle Ihre Geräte; eine Geräte-ID (52) aus dem Pushsafer-Dashboard oder von „Verbindung testen“; mehrere IDs (52|65); oder eine Gerätegruppe (gs12).",
+            "es": "a = todos sus dispositivos; un ID de dispositivo (52), visible en el panel de Pushsafer o con «Probar la conexión»; varios ID (52|65); o un grupo de dispositivos (gs12)."
+          },
+          "placeholder": {
+            "en": "a",
+            "fr": "a",
+            "de": "a",
+            "es": "a"
+          },
+          "required": true,
+          "default": "a"
+        },
+        {
+          "key": "message",
+          "type": "string",
+          "label": {
+            "en": "Text",
+            "fr": "Texte",
+            "de": "Text",
+            "es": "Texto"
+          },
+          "description": {
+            "en": "Scene variables are allowed. 5,000 characters at most.",
+            "fr": "Les variables de scène sont permises. 5 000 caractères au plus.",
+            "de": "Szenenvariablen sind erlaubt. Höchstens 5.000 Zeichen.",
+            "es": "Se permiten variables de escena. 5000 caracteres como máximo."
+          },
+          "required": true
+        },
+        {
+          "key": "title",
+          "type": "string",
+          "label": {
+            "en": "Title",
+            "fr": "Titre",
+            "de": "Titel",
+            "es": "Título"
+          },
+          "description": {
+            "en": "Empty: the title of the configuration.",
+            "fr": "Vide : le titre de la configuration.",
+            "de": "Leer: der Titel der Konfiguration.",
+            "es": "Vacío: el título de la configuración."
+          }
+        },
+        {
+          "key": "priority",
+          "type": "select",
+          "label": {
+            "en": "Priority",
+            "fr": "Priorité",
+            "de": "Priorität",
+            "es": "Prioridad"
+          },
+          "description": {
+            "en": "Empty: the priority of the configuration.",
+            "fr": "Vide : la priorité de la configuration.",
+            "de": "Leer: die Priorität der Konfiguration.",
+            "es": "Vacío: la prioridad de la configuración."
+          },
+          "options": [
+            {
+              "value": "-2",
+              "label": {
+                "en": "Lowest: no notification, in the app only",
+                "fr": "La plus basse : pas de notification, dans l'appli seulement",
+                "de": "Niedrigste: keine Benachrichtigung, nur in der App",
+                "es": "Mínima: sin notificación, solo en la app"
+              }
+            },
+            {
+              "value": "-1",
+              "label": {
+                "en": "Low: no sound nor vibration",
+                "fr": "Basse : ni son ni vibration",
+                "de": "Niedrig: ohne Ton und Vibration",
+                "es": "Baja: sin sonido ni vibración"
+              }
+            },
+            {
+              "value": "0",
+              "label": {
+                "en": "Normal: respects Do Not Disturb",
+                "fr": "Normale : respecte « Ne pas déranger »",
+                "de": "Normal: beachtet „Nicht stören“",
+                "es": "Normal: respeta «No molestar»"
+              }
+            },
+            {
+              "value": "1",
+              "label": {
+                "en": "High: ignores Do Not Disturb",
+                "fr": "Haute : ignore « Ne pas déranger »",
+                "de": "Hoch: ignoriert „Nicht stören“",
+                "es": "Alta: ignora «No molestar»"
+              }
+            },
+            {
+              "value": "2",
+              "label": {
+                "en": "Highest: critical alert",
+                "fr": "La plus haute : alerte critique",
+                "de": "Höchste: kritischer Hinweis",
+                "es": "Máxima: alerta crítica"
+              }
+            }
+          ]
+        },
+        {
+          "key": "sound",
+          "type": "number",
+          "label": {
+            "en": "Sound",
+            "fr": "Son",
+            "de": "Ton",
+            "es": "Sonido"
+          },
+          "description": {
+            "en": "0 = silent, 1 to 62. Empty: the sound of the configuration.",
+            "fr": "0 = silencieux, 1 à 62. Vide : le son de la configuration.",
+            "de": "0 = lautlos, 1 bis 62. Leer: der Ton der Konfiguration.",
+            "es": "0 = silencio, 1 a 62. Vacío: el sonido de la configuración."
+          },
+          "min": 0,
+          "max": 62
+        },
+        {
+          "key": "icon",
+          "type": "number",
+          "label": {
+            "en": "Icon",
+            "fr": "Icône",
+            "de": "Symbol",
+            "es": "Icono"
+          },
+          "description": {
+            "en": "1 to 181. Empty: the icon of the configuration.",
+            "fr": "1 à 181. Vide : l'icône de la configuration.",
+            "de": "1 bis 181. Leer: das Symbol der Konfiguration.",
+            "es": "1 a 181. Vacío: el icono de la configuración."
+          },
+          "min": 1,
+          "max": 181
+        },
+        {
+          "key": "icon_color",
+          "type": "string",
+          "label": {
+            "en": "Icon color",
+            "fr": "Couleur de l'icône",
+            "de": "Symbolfarbe",
+            "es": "Color del icono"
+          },
+          "description": {
+            "en": "A hex color such as #FF0000 (Android, Windows and the app; the LED on Android).",
+            "fr": "Une couleur hexadécimale comme #FF0000 (Android, Windows et l'appli ; la LED sur Android).",
+            "de": "Eine Hex-Farbe wie #FF0000 (Android, Windows und die App; die LED unter Android).",
+            "es": "Un color hexadecimal como #FF0000 (Android, Windows y la app; el LED en Android)."
+          },
+          "placeholder": {
+            "en": "#FF0000",
+            "fr": "#FF0000",
+            "de": "#FF0000",
+            "es": "#FF0000"
+          }
+        },
+        {
+          "key": "url",
+          "type": "string",
+          "label": {
+            "en": "Link",
+            "fr": "Lien",
+            "de": "Link",
+            "es": "Enlace"
+          },
+          "description": {
+            "en": "A web address or an app URL scheme, opened from the push.",
+            "fr": "Une adresse web ou un schéma d'URL d'application, ouvert depuis le push.",
+            "de": "Eine Webadresse oder ein App-URL-Schema, das aus dem Push geöffnet wird.",
+            "es": "Una dirección web o un esquema de URL de app, abierto desde el push."
+          },
+          "placeholder": {
+            "en": "https://",
+            "fr": "https://",
+            "de": "https://",
+            "es": "https://"
+          }
+        },
+        {
+          "key": "time_to_live",
+          "type": "number",
+          "label": {
+            "en": "Delete after (minutes)",
+            "fr": "Supprimer après (minutes)",
+            "de": "Löschen nach (Minuten)",
+            "es": "Borrar tras (minutos)"
+          },
+          "description": {
+            "en": "Empty: the setting of the configuration. 0: never.",
+            "fr": "Vide : le réglage de la configuration. 0 : jamais.",
+            "de": "Leer: die Einstellung der Konfiguration. 0: nie.",
+            "es": "Vacío: el ajuste de la configuración. 0: nunca."
+          },
+          "min": 0,
+          "max": 43200
+        },
+        {
+          "key": "confirm_seconds",
+          "type": "number",
+          "label": {
+            "en": "Repeat until read (seconds)",
+            "fr": "Répéter jusqu'à lecture (secondes)",
+            "de": "Wiederholen bis gelesen (Sekunden)",
+            "es": "Repetir hasta leído (segundos)"
+          },
+          "description": {
+            "en": "Sends the push again every N seconds (10 to 10,800) until it is opened in the app. Each repeat uses one API call.",
+            "fr": "Renvoie le push toutes les N secondes (10 à 10 800) jusqu'à ce qu'il soit ouvert dans l'appli. Chaque envoi consomme un appel d'API.",
+            "de": "Sendet den Push alle N Sekunden erneut (10 bis 10.800), bis er in der App geöffnet wird. Jede Wiederholung verbraucht einen API-Aufruf.",
+            "es": "Reenvía el push cada N segundos (10 a 10 800) hasta que se abra en la app. Cada reenvío consume una llamada a la API."
+          },
+          "min": 10,
+          "max": 10800
+        }
+      ],
+      "outputs": [
+        {
+          "key": "message_ids",
+          "type": "string",
+          "label": {
+            "en": "Message IDs",
+            "fr": "ID des messages",
+            "de": "Nachrichten-IDs",
+            "es": "ID de los mensajes"
+          },
+          "description": {
+            "en": "message:device pairs, comma separated.",
+            "fr": "Paires message:appareil, séparées par des virgules.",
+            "de": "Paare Nachricht:Gerät, durch Kommas getrennt.",
+            "es": "Pares mensaje:dispositivo, separados por comas."
+          }
+        },
+        {
+          "key": "api_calls_left",
+          "type": "number",
+          "label": {
+            "en": "API calls left",
+            "fr": "Appels d'API restants",
+            "de": "Verbleibende API-Aufrufe",
+            "es": "Llamadas restantes"
+          }
+        }
+      ]
+    }
+  ]
+}

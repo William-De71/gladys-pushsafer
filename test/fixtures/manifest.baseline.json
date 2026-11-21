@@ -1,0 +1,165 @@
+{
+  "_comment": "Generated from version 0.1.0. Never update without a documented migration (test/structure.test.js).",
+  "type": "communication",
+  "messaging": {
+    "receive": false
+  },
+  "config_schema": [
+    {
+      "key": "intro",
+      "type": "section"
+    },
+    {
+      "key": "private_key",
+      "type": "secret"
+    },
+    {
+      "key": "username",
+      "type": "string"
+    },
+    {
+      "key": "look_intro",
+      "type": "section"
+    },
+    {
+      "key": "title",
+      "type": "string"
+    },
+    {
+      "key": "icon",
+      "type": "number"
+    },
+    {
+      "key": "sound",
+      "type": "number"
+    },
+    {
+      "key": "vibration",
+      "type": "select"
+    },
+    {
+      "key": "priority",
+      "type": "select"
+    },
+    {
+      "key": "time_to_live",
+      "type": "number"
+    },
+    {
+      "key": "calls_intro",
+      "type": "section"
+    },
+    {
+      "key": "low_api_calls_threshold",
+      "type": "number"
+    }
+  ],
+  "contact_schema": [
+    {
+      "key": "intro",
+      "type": "section"
+    },
+    {
+      "key": "device",
+      "type": "string"
+    }
+  ],
+  "select_values": {
+    "vibration": ["1", "2", "3"],
+    "priority": ["-2", "-1", "0", "1", "2"]
+  },
+  "actions": ["test_connection", "send_test_push"],
+  "scene_triggers": [
+    {
+      "key": "push_not_sent",
+      "fields": [
+        {
+          "key": "reason",
+          "type": "multi_select",
+          "options": [
+            "no_api_calls",
+            "invalid_key",
+            "not_configured",
+            "invalid_device",
+            "invalid_group",
+            "empty_message",
+            "rejected",
+            "server_error",
+            "timeout",
+            "unreachable",
+            "unexpected"
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "key": "reason",
+          "type": "string"
+        },
+        {
+          "key": "status",
+          "type": "number"
+        },
+        {
+          "key": "error",
+          "type": "string"
+        },
+        {
+          "key": "device",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "key": "api_calls_low",
+      "fields": [],
+      "variables": [
+        {
+          "key": "api_calls_left",
+          "type": "number"
+        },
+        {
+          "key": "threshold",
+          "type": "number"
+        }
+      ]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "send_push",
+      "fields": [
+        "device",
+        "message",
+        "title",
+        "priority",
+        "sound",
+        "icon",
+        "icon_color",
+        "url",
+        "time_to_live",
+        "confirm_seconds"
+      ],
+      "outputs": [
+        {
+          "key": "message_ids",
+          "type": "string"
+        },
+        {
+          "key": "api_calls_left",
+          "type": "number"
+        }
+      ]
+    }
+  ],
+  "widgets": [
+    {
+      "key": "account",
+      "settings": []
+    },
+    {
+      "key": "recent",
+      "settings": []
+    }
+  ]
+}
